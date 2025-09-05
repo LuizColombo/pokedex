@@ -1,0 +1,138 @@
+@* @model List<pokedex.Models.Pokemon>
+
+<!-- Caixa de pesquisa -->
+<div class="row mt-3">
+    <div class="col-12">
+        <form asp-controller="Pokedex" asp-action="SearchPokemonsHabitat" method="post" class="d-flex">
+            <input type="text" name="habitat" class="form-control me-2" placeholder="Digite o habitat do Pokémon" />
+            <button type="submit" class="btn btn-danger">Buscar</button>
+        </form>
+    </div>
+</div>
+
+@if(Model != null && Model.Count > 0)
+{
+    <div class="row g-3">
+        @foreach(var pokemon in Model)
+        {
+            <div class="col-md-3">
+                <div class="card h-100 text-center">
+                    <img src="@pokemon.Sprite" class="card-img-top mx-auto mt-2" style="width:100px;" alt="@pokemon.Name" />
+                    <div class="card-body">
+                        <h5 class="card-title text-capitalize">@pokemon.Name (#@pokemon.Id)</h5>
+                        <p class="card-text">
+                            <b>Height:</b> @pokemon.Height | <b>Weight:</b> @pokemon.Weight
+                        </p>
+                        <p class="card-text">
+                            <b>Types:</b> @string.Join(", ", pokemon.Types)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+} *@
+
+@model List<pokedex.Models.Pokemon>
+
+<div class="container mt-5">
+
+    <!-- Pesquisa -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <form asp-controller="Pokedex" asp-action="SearchPokemonsHabitat" method="post" class="d-flex">
+                <input type="text" name="habitat" class="form-control me-2" placeholder="Digite o habitat do Pokémon" />
+                <button type="submit" class="btn btn-danger">Buscar</button>
+            </form>
+        </div>
+    </div>
+
+    @if (Model != null && Model.Count > 0)
+    {
+        <div class="carousel-container position-relative">
+            <button class="carousel-btn prev btn btn-danger">&lt;</button>
+            <div class="carousel-track-wrapper overflow-hidden">
+                <div class="carousel-track d-flex">
+                    @foreach(var pokemon in Model)
+                    {
+                        <div class="pokemon-card text-center mx-2">
+                            <img src="@pokemon.Sprite" alt="@pokemon.Name" class="img-fluid" />
+                            <h5 class="text-capitalize mt-2">@pokemon.Name (#@pokemon.Id)</h5>
+                            <p>@string.Join(", ", pokemon.Types)</p>
+                        </div>
+                    }
+                </div>
+            </div>
+            <button class="carousel-btn next btn btn-danger">&gt;</button>
+        </div>
+    }
+</div>
+
+<style>
+.carousel-container {
+    position: relative;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.carousel-track-wrapper {
+    overflow: hidden;
+    width: 100%;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.pokemon-card {
+    flex: 0 0 120px; /* largura base */
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.pokemon-card.active {
+    transform: scale(1.5);
+    z-index: 2;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+}
+
+.carousel-btn.prev { left: -10px; }
+.carousel-btn.next { right: -10px; }
+</style>
+
+<script>
+let track = document.querySelector('.carousel-track');
+let cards = document.querySelectorAll('.pokemon-card');
+let index = 0;
+
+function updateActive() {
+    cards.forEach((card, i) => card.classList.remove('active'));
+    if(cards[index]) cards[index].classList.add('active');
+
+    let trackWidth = track.getBoundingClientRect().width;
+    let cardWidth = cards[0].offsetWidth + 16; // margin
+    let offset = index * cardWidth - (trackWidth / 2 - cardWidth / 2);
+    track.style.transform = `translateX(${-offset}px)`;
+}
+
+// Inicializa
+updateActive();
+
+// Botões
+document.querySelector('.carousel-btn.next').addEventListener('click', () => {
+    if(index < cards.length - 1) index++;
+    updateActive();
+});
+
+document.querySelector('.carousel-btn.prev').addEventListener('click', () => {
+    if(index > 0) index--;
+    updateActive();
+});
+</script>

@@ -1,0 +1,12 @@
+.pokedex-screen {
+    min-height: 100vh;
+    background: #f8f9fa;
+    padding: 15px;
+    font-family: 'Press Start 2P', cursive; /* fonte retrô opcional */
+}
+
+.pokedex-card {
+    border: 2px solid #d00000;
+    border-radius: 8px;
+    background: #fff;
+}
