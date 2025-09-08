@@ -9,11 +9,13 @@ namespace pokedex.Controllers
     {
         private readonly PokedexService _pokedexService;
         private readonly PokedexHabitatService _pokedexHabitatService;
+        private readonly PokedexTypeService _pokedexTypeService;
 
-        public PokedexController(PokedexService pokedexService, PokedexHabitatService pokedexHabitatService)
+        public PokedexController(PokedexService pokedexService, PokedexHabitatService pokedexHabitatService, PokedexTypeService pokedexTypeService)
         {
             _pokedexService = pokedexService;
             _pokedexHabitatService = pokedexHabitatService;
+            _pokedexTypeService = pokedexTypeService;
         }
 
         #region Pokemon By Name or ID
@@ -42,26 +44,43 @@ namespace pokedex.Controllers
         #endregion
 
         #region Pokemons By Habitat
-            public IActionResult PokemonsHabitat()
-            {
-                return View();
-            }
+        public IActionResult PokemonsHabitat()
+        {
+            return View();
+        }
 
-            [HttpPost]
-            public async Task<IActionResult> SearchPokemonsHabitat(string habitat)
-            {
-                if (string.IsNullOrWhiteSpace(habitat))
-                    return View("PokemonsHabitat");
+        public async Task<IActionResult> SearchPokemonsHabitat(string habitat, int page = 1)
+        {
+            int pageSize = 10;
+            var (pokemons, totalCount) = await _pokedexHabitatService.GetPokemonsByHabitatAsync(habitat, page, pageSize);
 
-                var pokemons = await _pokedexHabitatService.GetPokemonsByHabitatAsync(habitat);
-                if (pokemons == null || pokemons.Count == 0)
-                {
-                    ViewBag.Error = "Habitat não encontrado.";
-                    return View("PokemonsHabitat");
-                }
+            ViewBag.Habitat = habitat;
+            ViewBag.Page = page;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
 
-                return View("PokemonsHabitat", pokemons); // passa a lista para a View
-            }
+            return View("PokemonsHabitat", pokemons);
+        }
+
+        #endregion
+
+        #region Type
+
+        public IActionResult PokemonsType()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> SearchPokemonsType(string type, int page = 1)
+        {
+            int pageSize = 10;
+            var (pokemons, totalCount) = await _pokedexTypeService.GetPokemonsByTypeAsync(type, page, pageSize);
+
+            ViewBag.Type = type;
+            ViewBag.Page = page;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+            return View("PokemonsType", pokemons);
+        }
             
         #endregion
     }

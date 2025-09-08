@@ -17,23 +17,31 @@ namespace pokedex.Services
             _pokedexService = pokedexService;
         }
 
-        public async Task<List<Pokemon>> GetPokemonsByHabitatAsync(string habitatName)
+        public async Task<(List<Pokemon> Pokemons, int TotalCount)> GetPokemonsByHabitatAsync(
+            string habitatName, int page = 1, int pageSize = 10)
         {
-            var response = await _httpClient.GetAsync($"https://pokeapi.co/api/v2/pokemon-habitat/{habitatName.ToLower()}");
+            var response = await _httpClient.GetAsync(
+                $"https://pokeapi.co/api/v2/pokemon-habitat/{habitatName.ToLower()}");
+
             if (!response.IsSuccessStatusCode)
-                return null;
+                return (new List<Pokemon>(), 0);
 
             var json = await response.Content.ReadAsStringAsync();
             var data = JObject.Parse(json);
 
-            var speciesList = data["pokemon_species"];
+            var speciesList = data["pokemon_species"].ToList();
+            var totalCount = speciesList.Count;
+
+            // paginação manual
+            int skip = (page - 1) * pageSize;
+            var pagedSpecies = speciesList.Skip(skip).Take(pageSize);
+
             var pokemons = new List<Pokemon>();
 
-            foreach (var species in speciesList)
+            foreach (var species in pagedSpecies)
             {
                 var name = species["name"].ToString();
 
-                // Usa o serviço já existente para pegar o Pokémon
                 var pokemon = await _pokedexService.GetPokemonAsync(name);
                 if (pokemon != null)
                 {
@@ -41,7 +49,8 @@ namespace pokedex.Services
                 }
             }
 
-            return pokemons;
+            return (pokemons, totalCount);
         }
+
     }
 }

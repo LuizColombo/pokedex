@@ -15,8 +15,8 @@
     <!-- Pesquisa -->
     <div class="row mb-4">
         <div class="col-12">
-            <form asp-controller="Pokedex" asp-action="SearchPokemonsHabitat" method="get" class="d-flex search-box">
-                <input type="text" name="habitat" class="form-control me-2" placeholder="Digite o habitat do Pokémon" />
+            <form asp-controller="Pokedex" asp-action="SearchPokemonsType" method="get" class="d-flex search-box">
+                <input type="text" name="type" class="form-control me-2" placeholder="Digite o tipo do Pokémon" />
                 <button type="submit" class="btn btn-danger">🔍 Buscar</button>
             </form>
         </div>
@@ -52,20 +52,20 @@
         <nav aria-label="Page navigation" class="mt-4">
             <ul class="pagination justify-content-center">
                 <li class="page-item @(ViewBag.Page <= 1 ? "disabled" : "")">
-                    <a class="page-link" href="@Url.Action("SearchPokemonsHabitat", new { habitat = ViewBag.Habitat, page = ViewBag.Page - 1 })">Anterior</a>
+                    <a class="page-link" href="@Url.Action("SearchPokemonsType", new { type = ViewBag.Type, page = ViewBag.Page - 1 })">Anterior</a>
                 </li>
 
                 @for (int i = 1; i <= ViewBag.TotalPages; i++)
                 {
                     <text>
                         <li class="page-item @(ViewBag.Page == i ? "active" : "")">
-                            <a class="page-link" href="@Url.Action("SearchPokemonsHabitat", new { habitat = ViewBag.Habitat, page = i })">@i</a>
+                            <a class="page-link" href="@Url.Action("SearchPokemonsType", new { type = ViewBag.Type, page = i })">@i</a>
                         </li>
                     </text>
                 }
 
                 <li class="page-item @(ViewBag.Page >= ViewBag.TotalPages ? "disabled" : "")">
-                    <a class="page-link" href="@Url.Action("SearchPokemonsHabitat", new { habitat = ViewBag.Habitat, page = ViewBag.Page + 1 })">Próximo</a>
+                    <a class="page-link" href="@Url.Action("SearchPokemonsType", new { type = ViewBag.Type, page = ViewBag.Page + 1 })">Próximo</a>
                 </li>
             </ul>
         </nav>

@@ -1,61 +1,29 @@
-@* @model pokedex.Models.Pokemon
-
-@{
-    ViewData["Title"] = "Pokédex";
-}
-
-<div class="container mt-5">
-    <h1 class="mb-4">Pokédex</h1>
-
-    <form asp-controller="Pokedex" asp-action="Search" method="post" class="d-flex mb-4">
-        <input type="text" name="name" placeholder="Digite o nome" class="form-control me-2" />
-        <button type="submit" class="btn btn-danger">Buscar</button>
-    </form>
-
-    @if(ViewBag.Error != null)
-    {
-        <div class="alert alert-danger">@ViewBag.Error</div>
-    }
-
-    @if(Model != null)
-    {
-        <div class="card" style="width: 18rem;">
-            <img src="@Model.Sprite" class="card-img-top" alt="@Model.Name" />
-            <div class="card-body">
-                <h5 class="card-title text-capitalize">@Model.Name (#@Model.Id)</h5>
-                <p class="card-text">
-                    <b>Height:</b> @Model.Height | <b>Weight:</b> @Model.Weight
-                </p>
-                <p class="card-text">
-                    <b>Types:</b> @string.Join(", ", Model.Types)
-                </p>
-            </div>
-        </div>
-    }
-</div>
- *@
-
-
 @model pokedex.Models.Pokemon
 
 @{
     ViewData["Title"] = "Pokédex";
 }
 
-<div class="container-fluid bg-light pokedex-screen">
-    <!-- Barra superior -->
-    <div class="row bg-danger text-white p-2 align-items-center">
+<div class="container-fluid pokedex-container">
+
+    <!-- Barra superior estilo Pokédex -->
+    <div class="row bg-dark text-white p-2 align-items-center pokedex-header">
         <div class="col">
-            <h5 class="m-0">INFO</h5>
+            <h4 class="m-0 fw-bold">Pokédex - Info</h4>
+        </div>
+        <div class="col-auto lights">
+            <span class="light red"></span>
+            <span class="light yellow"></span>
+            <span class="light green"></span>
         </div>
     </div>
 
     <!-- Caixa de pesquisa -->
     <div class="row mt-3">
         <div class="col-12">
-            <form asp-controller="Pokedex" asp-action="Search" method="post" class="d-flex">
+            <form asp-controller="Pokedex" asp-action="Search" method="post" class="d-flex search-box">
                 <input type="text" name="name" class="form-control me-2" placeholder="Digite o nome ou número do Pokémon" />
-                <button type="submit" class="btn btn-danger">Buscar</button>
+                <button type="submit" class="btn btn-danger">🔍 Buscar</button>
             </form>
         </div>
     </div>
@@ -73,55 +41,118 @@
     {
         <!-- Conteúdo principal -->
         <div class="row mt-4">
-            <!-- Imagem Pokémon -->
-            <div class="col-4">
-                <div class="card shadow pokedex-card">
-                    <div class="card-body text-center">
-                        <img src="@Model.Sprite" alt="@Model.Name" class="img-fluid">
+            
+            <!-- Tela do Pokémon -->
+            <div class="col-md-4 text-center">
+                <div class="screen-frame shadow">
+                    <div class="screen">
+                        <img src="@Model.Sprite" alt="@Model.Name" class="pokemon-img">
                     </div>
                 </div>
             </div>
 
-            <!-- Nome e Tipo -->
-            <div class="col-8">
-                <div class="card shadow mb-3 pokedex-card">
-                    <div class="card-body">
-                        <h4 class="m-0 text-capitalize">@Model.Name [#@Model.Id]</h4>
-                    </div>
+            <!-- Nome, Tipos e Dados -->
+            <div class="col-md-8">
+                <div class="info-card shadow mb-3">
+                    <h3 class="text-capitalize fw-bold">@Model.Name <small>[#@Model.Id]</small></h3>
                 </div>
 
                 <div class="row">
-                    <div class="col-6">
-                        <div class="card shadow pokedex-card">
-                            <div class="card-body">
-                                @foreach(var type in Model.Types)
-                                {
-                                    <span class="badge bg-primary text-capitalize me-1">@type</span>
-                                }
-                            </div>
+                    <!-- Tipos -->
+                    <div class="col-md-6">
+                        <div class="info-card shadow">
+                            <p class="fw-bold">Tipo</p>
+                            @foreach(var type in Model.Types)
+                            {
+                                <span class="badge type-badge text-capitalize me-1">@type</span>
+                            }
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="card shadow pokedex-card">
-                            <div class="card-body">
-                                <p class="m-0"><b>HT:</b> @Model.Height m</p>
-                                <p class="m-0"><b>WT:</b> @Model.Weight kg</p>
-                            </div>
+
+                    <!-- Altura e Peso -->
+                    <div class="col-md-6">
+                        <div class="info-card shadow">
+                            <p><b>HT:</b> @Model.Height m</p>
+                            <p><b>WT:</b> @Model.Weight kg</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-@* 
-        <!-- Descrição -->
-        <div class="row mt-3">
-            <div class="col">
-                <div class="card shadow pokedex-card">
-                    <div class="card-body">
-                        <p id="pokemonDescription">@Model.Description ?? "Sem descrição disponível."</p>
-                    </div>
-                </div>
-            </div>
-        </div> *@
     }
 </div>
+
+<style>
+/* Moldura da Pokédex */
+.pokedex-container {
+    background: linear-gradient(145deg, #c62828, #b71c1c);
+    border: 8px solid #212121;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 6px 6px 0 #000;
+    min-height: 100vh;
+}
+
+/* Header */
+.pokedex-header {
+    border-bottom: 4px solid #000;
+    border-radius: 10px;
+}
+.lights .light {
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    margin-left: 6px;
+    border-radius: 50%;
+}
+.lights .red { background: #ff1744; }
+.lights .yellow { background: #ffeb3b; }
+.lights .green { background: #00e676; }
+
+/* Caixa de pesquisa */
+.search-box input {
+    border: 2px solid #000;
+    border-radius: 8px;
+}
+
+/* Tela do Pokémon */
+.screen-frame {
+    background: #212121;
+    border: 6px solid #000;
+    border-radius: 15px;
+    padding: 10px;
+}
+.screen {
+    background: #000;
+    border: 4px inset #444;
+    border-radius: 10px;
+    padding: 20px;
+    min-height: 220px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.pokemon-img {
+    width: 150px;
+    height: 150px;
+}
+
+/* Cards de info */
+.info-card {
+    background: #f5f5f5;
+    border: 3px solid #000;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+/* Tipos */
+.type-badge {
+    padding: 8px 12px;
+    border: 2px solid #000;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    background-color: #2196f3;
+}
+</style>

@@ -23,6 +23,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUG9rZWRleC9Qb2tlbW9uc0hhYml0YXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[/home/zero/dev/pokedex/pokedex/Views/Pokedex/PokemonsType.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUG9rZWRleC9Qb2tlbW9uc1R5cGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/zero/dev/pokedex/pokedex/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

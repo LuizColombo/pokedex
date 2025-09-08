@@ -8,6 +8,7 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddScoped<PokedexService>();
 builder.Services.AddScoped<PokedexHabitatService>();
+builder.Services.AddScoped<PokedexTypeService>();
 
 var app = builder.Build();
 
