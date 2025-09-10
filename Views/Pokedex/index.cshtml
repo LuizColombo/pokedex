@@ -36,9 +36,24 @@
             </div>
         </div>
     }
-
+    
     @if(Model != null)
     {
+
+        <div class="carousel-container position-relative">
+
+            <form asp-controller="Pokedex" asp-action="Search" method="post" class="d-flex search-box">
+                <input type="hidden" name="name" value="@(Model.Id > 1 ? Model.Id - 1 : 1)" />
+                <button type="submit" class="carousel-btn prev btn btn-danger">◀</button>
+            </form>
+
+            <form asp-controller="Pokedex" asp-action="Search" method="post" class="d-flex search-box">
+                <input type="hidden" name="name" value="@(Model.Id + 1)" />
+                <button type="submit" class="carousel-btn next btn btn-danger">▶</button>
+            </form>
+
+        </div>
+
         <!-- Conteúdo principal -->
         <div class="row mt-4">
             
@@ -155,4 +170,25 @@
     font-weight: bold;
     background-color: #2196f3;
 }
+
+/* Carrossel */
+.carousel-container {
+    position: relative;
+    width: 100%;
+    margin-top: 40px;
+}
+
+/* Botões carrossel */
+.carousel-btn {
+    position: absolute;
+    top: 90%;
+    transform: translateY(-50%);
+    z-index: 5;
+    font-size: 1.5rem;
+    border-radius: 50%;
+    padding: 10px 15px;
+}
+.carousel-btn.prev { left: -40px; }
+.carousel-btn.next { right: -40px; }
+
 </style>
