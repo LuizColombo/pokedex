@@ -17,13 +17,12 @@ Este projeto é uma **Pokédex interativa** desenvolvida em **ASP.NET Core MVC**
 - Design responsivo para desktop e mobile  
 
 ## 📂 Estrutura do projeto
-
+```text
 /Controllers -> Controladores MVC
 /Models -> Modelos de dados (Pokemon, Habitat, etc.)
 /Views -> Páginas Razor (Frontend)
 /wwwroot -> Arquivos estáticos (CSS, JS, imagens)
-
-
+```
 ## 🔧 Como rodar o projeto
 
 1. Clone este repositório:
