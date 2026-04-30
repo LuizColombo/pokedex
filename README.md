@@ -1,47 +1,57 @@
-# Pokédex - ASP.NET MVC
+# Pokédex
 
-Este projeto é uma **Pokédex interativa** desenvolvida em **ASP.NET Core MVC**, que consome a **PokéAPI** para listar e pesquisar informações sobre diferentes Pokémons.
+Aplicação web para pesquisar Pokémons por nome, habitat ou tipo, consumindo a [PokéAPI](https://pokeapi.co/).
 
-## 🚀 Tecnologias utilizadas
+Desenvolvida em **ASP.NET Core MVC (.NET 6)** com suporte a Docker.
 
-- [ASP.NET Core MVC](https://dotnet.microsoft.com/)  
-- [C#](https://learn.microsoft.com/pt-br/dotnet/csharp/)  
-- [Bootstrap](https://getbootstrap.com/) (para layout e responsividade)  
-- [PokéAPI](https://pokeapi.co/) (API pública utilizada para obter os dados dos Pokémons)
+---
 
-## 📌 Funcionalidades
+## Funcionalidades
 
-- Listagem de Pokémons com imagens  
-- Pesquisa de Pokémons por **nome**  
-- Pesquisa por **habitat**  
-- Design responsivo para desktop e mobile  
+- Busca de Pokémon por **nome ou ID**
+- Listagem por **habitat** (cave, forest, sea, etc.)
+- Listagem por **tipo** (fire, water, grass, etc.)
+- Paginação nos resultados
+- Design responsivo via Bootstrap
 
-## 📂 Estrutura do projeto
-```text
-/Controllers -> Controladores MVC
-/Models -> Modelos de dados (Pokemon, Habitat, etc.)
-/Views -> Páginas Razor (Frontend)
-/wwwroot -> Arquivos estáticos (CSS, JS, imagens)
+---
+
+## Rodando com Docker (recomendado)
+
+Não precisa de .NET instalado localmente.
+
+```bash
+docker compose up --build
 ```
-## 🔧 Como rodar o projeto
 
-1. Clone este repositório:
-   ```bash
-   git clone https://github.com/seu-usuario/seu-repositorio.git
+Acesse: [http://localhost:8080](http://localhost:8080)
 
-2. Acesse a pasta do projeto:
-   cd seu-repositorio
+```bash
+docker compose down   # parar
+```
 
-3. Restaure as dependências::
-   dotnet restore
+---
 
-4. Execute a aplicação:
-   dotnet run
+## Rodando localmente
 
-5. Abra no navegador:
-   https://localhost:5001
+Requer [.NET 6 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/6.0).
 
-Contribuições
+```bash
+dotnet restore
+dotnet run
+```
 
-Contribuições são bem-vindas!
-Sinta-se à vontade para abrir issues e enviar pull requests.
+Acesse: [https://localhost:7238](https://localhost:7238)
+
+---
+
+## Stack
+
+| Tecnologia | Uso |
+|---|---|
+| ASP.NET Core MVC | Framework web |
+| C# / .NET 6 | Linguagem e runtime |
+| PokéAPI | Fonte de dados |
+| Newtonsoft.Json | Parse das respostas da API |
+| Bootstrap | Layout e responsividade |
+| Docker | Containerização |

@@ -1,0 +1,18 @@
+services:
+  pokedex:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pokedex-app
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    networks:
+      - pokedex-net
+    restart: unless-stopped
+
+networks:
+  pokedex-net:
+    name: pokedex-net
+    driver: bridge

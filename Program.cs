@@ -12,7 +12,9 @@ builder.Services.AddScoped<PokedexTypeService>();
 
 var app = builder.Build();
 
-app.UseHttpsRedirection();
+if (!app.Environment.IsProduction())
+    app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 
 app.UseRouting();
